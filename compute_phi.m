@@ -1,5 +1,5 @@
 function phi = compute_phi(y)
-
+% Implements the activation function.
 ny = max(size(y));
 phi = y;
 

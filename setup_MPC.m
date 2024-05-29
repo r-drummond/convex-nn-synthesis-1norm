@@ -1,4 +1,6 @@
 function [D,S,w,N,nx,H,F,G,A,B]  = setup_MPC()
+% Function that sets up the MPC problem. Details given in the examples
+% section of the paper.
 
 n = 3; nx = 2*n;
 scaling = 1*1e0;
@@ -32,6 +34,5 @@ S = G*(inv(H))*F_add;
 F = F_add;
 D = eye(2*n)-G*inv(H)*G';
 w = ones(2*n,1)*scaling;
-
 
 end

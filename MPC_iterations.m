@@ -1,17 +1,14 @@
 function [u_ramp,res_norm] = MPC_iterations(D,Wf,Wfu,u0,xk,iters,S,w)
 
-n = max(size(u0));
+%% this code computes the MPC policy by unravelling the implict neural network.
+% See "Mapping back and forth between model predictive control and neural
+% networks" by Drummond, Baldivieso-Monasterios and Valmorbida for details.
+
 phi = compute_phi(u0);
-y = u0;
-    c_MPC = 1*S*xk+ 1*w;
-    zeta = -1*c_MPC;
-residual = y-D*phi-zeta;
 
 for g = 1:iters
     c_MPC = 1*S*xk+ 1*w;
     zeta = -1*c_MPC;
-    y_store (:,g) = y;
-    phi_store (:,g) = phi; res_store (:,g) = residual;
     ykp1 = D*phi + zeta;
 
     phi = compute_phi(ykp1);
@@ -19,11 +16,8 @@ for g = 1:iters
 
     residual = y-D*phi-zeta;
     res_norm(g) = norm(residual);
-    res_norm_store(g)= norm(y-D*phi-zeta);
 end
 
-y_ramp = ykp1;
-% u_ramp = -1*inv(H)*(F_add*xk+G'*phi);
 u_ramp = Wfu*xk+Wf*phi;
 
 end

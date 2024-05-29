@@ -1,4 +1,5 @@
 function y = ReLU(x)
+% implements the ReLU nonlinearity
 n = max(size(x));
 
 y = x;
